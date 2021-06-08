@@ -14,8 +14,8 @@ Joystick_ Joystick(
   false, // Eixo Ry
   false, // Eixo Rz
   false, // Rudder
-  false, // Throttle
-  false, // Accelerator
+  true, // Throttle
+  true, // Accelerator
   false, // Brake
   false //Steering
 );
@@ -58,6 +58,8 @@ void setup() {
 
   Joystick.setXAxisRange(-127, 127);
   Joystick.setYAxisRange(-127, 127);
+  Joystick.setThrottleRange(0, 255);
+  Joystick.setAcceleratorRange(0, 255);
 
   // Initialize Joystick Library
   Joystick.begin();
@@ -75,6 +77,20 @@ int analogY() {
  */
 int analogX() {
   return analogRead(0);
+}
+
+/**
+ * Retorna a leitura analogica do throttle
+ */
+int analogThrottle() {
+  return analogRead(2);
+}
+
+/**
+ * Retorna a leitura analogica do throttle
+ */
+int analogAccelerator() {
+  return analogRead(3);
 }
 
 /** 
@@ -195,6 +211,15 @@ void loop() {
   
   Joystick.setXAxis( x(0) );
   Joystick.setYAxis( y(0) );
+
+//  map(analogThrottle(), 340, 750, 0, 255);
+  Joystick.setThrottle(map(analogThrottle(), 340, 750, 0, 255));
+
+  Joystick.setAccelerator(map(analogAccelerator(), 300, 600, 0, 255));
+
+//  Serial.print(analogThrottle());
+//  Serial.println(" -> ");
+//  Serial.println(map(analogThrottle(), 340, 750, 0, 255));
   
   delay(100);
 }
